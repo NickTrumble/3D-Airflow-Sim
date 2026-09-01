@@ -11,9 +11,9 @@ public class SideBar extends VBox {
 
     public SideBar(int width, int height){
         this.width = width - 15; //padding
-        this.height = (int) (height * 0.25);
-        statsBox = new StatsBox(this.width, this.height);
-        modelInfoBox = new ModelInfoBox(this.width, this.height);
+        this.height = height;
+        statsBox = new StatsBox(this.width, (int) (height * 0.55));
+        modelInfoBox = new ModelInfoBox(this.width, (int) (height * 0.25));
 
         getChildren().addAll(statsBox, modelInfoBox);
     }

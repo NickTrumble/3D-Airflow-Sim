@@ -74,16 +74,41 @@ public class Window extends Application {
         };
 
         List<Path> importedMeshes = new ArrayList<>();
+        modelViewport.setOnSimulationMetricsChanged(sideBar.getStatsBox()::updateSimulationMetrics);
+        sideBar.getModelInfoBox().setOnDebugModeChanged(enabled -> {
+            modelViewport.setDebugAirflowEnabled(enabled);
+            sideBar.getModelInfoBox().setSimulationRunning(false);
+            if (enabled) {
+                sideBar.getModelInfoBox().clearSimulationTooltip();
+            }
+        });
+        sideBar.getModelInfoBox().setOnSimulationAction(() -> {
+            if (modelViewport.isSimulationRunning()) {
+                modelViewport.stopSimulation();
+                sideBar.getModelInfoBox().setSimulationRunning(false);
+            } else if (modelViewport.startSimulation()) {
+                sideBar.getModelInfoBox().clearSimulationTooltip();
+                sideBar.getModelInfoBox().setSimulationRunning(true);
+            } else {
+                sideBar.getModelInfoBox().showOpenFoamPending();
+            }
+        });
         sideBar.getModelInfoBox().setOnMeshSelected(path -> {
             if (!loadMesh.apply(path)) {
                 return;
             }
+            sideBar.getModelInfoBox().setMeshLoaded(true);
+            sideBar.getModelInfoBox().setSimulationRunning(false);
 
             Path normalisedPath = path.toAbsolutePath().normalize();
             if (!importedMeshes.contains(normalisedPath)) {
                 importedMeshes.add(normalisedPath);
                 MenuItem meshItem = new MenuItem(removeFileExtension(path.getFileName().toString()));
-                meshItem.setOnAction(event -> loadMesh.apply(normalisedPath));
+                meshItem.setOnAction(event -> {
+                    if (loadMesh.apply(normalisedPath)) {
+                        sideBar.getModelInfoBox().setSimulationRunning(false);
+                    }
+                });
                 fileMenu.getItems().add(meshItem);
             }
         });

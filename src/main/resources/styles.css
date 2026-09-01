@@ -170,6 +170,42 @@
     -fx-border-color: -app-accent-hover;
 }
 
+.app-info .stop-button {
+    -fx-background-color: #EF4444;
+    -fx-background-radius: 8px;
+    -fx-border-color: #F87171;
+    -fx-border-radius: 8px;
+    -fx-padding: 10px 14px;
+    -fx-text-fill: white;
+    -fx-cursor: hand;
+    -fx-font-weight: bold;
+}
+
+.app-info .stop-button:hover {
+    -fx-background-color: #F87171;
+}
+
 .app-info .button:focused {
     -fx-effect: dropshadow(gaussian, rgba(34, 211, 238, 0.35), 8, 0.25, 0, 0);
+}
+
+.app-info .debug-toggle {
+    -fx-background-color: transparent;
+    -fx-background-radius: 8px;
+    -fx-border-color: -app-border;
+    -fx-border-radius: 8px;
+    -fx-padding: 10px 14px;
+    -fx-text-fill: -app-muted;
+    -fx-cursor: hand;
+}
+
+.app-info .debug-toggle:hover {
+    -fx-background-color: -app-surface-hover;
+    -fx-text-fill: -app-text;
+}
+
+.app-info .debug-toggle:selected {
+    -fx-background-color: rgba(34, 211, 238, 0.16);
+    -fx-border-color: -app-accent;
+    -fx-text-fill: -app-accent;
 }
